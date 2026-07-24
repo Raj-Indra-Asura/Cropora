@@ -1,0 +1,28 @@
+# Android
+android-app/*.iml
+android-app/.gradle/
+android-app/.idea/
+android-app/local.properties
+android-app/.DS_Store
+android-app/build/
+android-app/captures/
+android-app/app/build/
+android-app/app/release/
+android-app/app/debug/
+android-app/*.hprof
+android-app/app/src/main/assets/*.tflite
+
+# Python / backend
+backend-api/__pycache__/
+backend-api/**/__pycache__/
+backend-api/.venv/
+backend-api/venv/
+backend-api/*.pyc
+backend-api/.env
+backend-api/models/*.keras
+backend-api/models/*.tflite
+backend-api/models/temp
+
+# General
+*.log
+.DS_Store
