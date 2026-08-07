@@ -425,7 +425,7 @@ animate in the same rhythm. Side-by-side playback with Slide 9 is recommended (s
 transition). *Hero: message 8 — identical object returning.*
 
 ---
-## SLIDE 12 — The Twin Contract: How Two Engines Become One System
+## SLIDE 12 — Stage 4 · Unify: The Twin Contract That Makes Two Engines One System
 
 **TEXT:**
 ```text
@@ -924,7 +924,7 @@ diagram. *Hero: the 3× replay.*
 
 ## Appendix — Rendering instructions
 
-1. **Slide count check:** sections contain exactly 25 `## SLIDE n` blocks (1–25). Do not merge or split.
+1. **Slide count check:** the file contains exactly 25 `## SLIDE n` blocks (1–25). Do not merge or split.
 2. **Mermaid rendering:** every fenced ` ```mermaid ` block renders standalone in Marp (`marp: true`
    header), Slidev, mermaid.live, or the draw.io Mermaid importer. Export each diagram as PNG/SVG
    and place it as the slide's dominant visual (~70% of the canvas); the TEXT block sits in a slim
