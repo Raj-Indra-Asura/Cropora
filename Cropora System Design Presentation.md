@@ -1,4 +1,4 @@
-# Cropora — System Design Presentation (12 Slides)
+# Cropora — System Design Presentation (20 Slides)
 
 > **What this file is.** A simplified, visual-first walkthrough of how Cropora works — built for
 > explaining to teachers, peers, and non-technical audiences. Each slide is one diagram + a short caption.
@@ -76,7 +76,31 @@ flowchart LR
 
 ---
 
-## SLIDE 3 — The Big Picture
+## SLIDE 3 — Why It Matters
+
+**TEXT:**
+```text
+Late detection = lost crops.
+Cropora gives an instant answer, on-site, with or without signal.
+```
+
+**VISUAL:**
+```mermaid
+flowchart LR
+    P1["🐌 Slow / no diagnosis"] --> P2["🌾 Crop loss"]
+    S1["⚡ Instant Cropora scan"] --> S2["🌱 Early treatment"]
+
+    style P1 fill:#c62828,color:#fff
+    style P2 fill:#c62828,color:#fff
+    style S1 fill:#2e7d32,color:#fff
+    style S2 fill:#2e7d32,color:#fff
+```
+
+**MOTION:** Red "problem" row fades in first, then green "solution" row slides in below it.
+
+---
+
+## SLIDE 4 — The Big Picture
 
 **TEXT:**
 ```text
@@ -119,7 +143,31 @@ flowchart TB
 
 ---
 
-## SLIDE 4 — The Journey in 7 Steps
+## SLIDE 5 — Who Uses Cropora
+
+**TEXT:**
+```text
+One app, no login needed, works fully offline once installed.
+```
+
+**VISUAL:**
+```mermaid
+flowchart LR
+    U(["👩‍🌾 Farmer"]) --> APP["📱 Cropora App"]
+    U2(["🧑‍🎓 Student / Agronomist"]) --> APP
+    APP --> R(["✅ Diagnosis + care plan"])
+
+    style U fill:#6a1b9a,color:#fff
+    style U2 fill:#6a1b9a,color:#fff
+    style APP fill:#2e7d32,color:#fff
+    style R fill:#6a1b9a,color:#fff
+```
+
+**MOTION:** Both user icons fade in together → converge into app → answer pops out.
+
+---
+
+## SLIDE 6 — The Journey in 7 Steps
 
 **TEXT:**
 ```text
@@ -150,11 +198,36 @@ flowchart LR
 
 ---
 
-## SLIDE 5 — Step 1 & 2: Capture & Route
+## SLIDE 7 — Step 1: Capture
 
 **TEXT:**
 ```text
-Photo comes in → app checks network → picks an engine.
+Photo comes from camera or gallery.
+App resizes it to 224×224 before anything else happens.
+```
+
+**VISUAL:**
+```mermaid
+flowchart LR
+    C1["📷 Camera"] --> IMG(["🖼️ Photo"])
+    C2["🖼️ Gallery"] --> IMG
+    IMG --> RS["📐 Resize to 224×224"]
+
+    style C1 fill:#6a1b9a,color:#fff
+    style C2 fill:#6a1b9a,color:#fff
+    style IMG fill:#6a1b9a,color:#fff
+    style RS fill:#2e7d32,color:#fff
+```
+
+**MOTION:** Camera and gallery icons fade in → merge into photo → resize box grows.
+
+---
+
+## SLIDE 8 — Step 2: Route
+
+**TEXT:**
+```text
+App checks network → picks an engine.
 Online? → Cloud.   Offline? → Phone answers by itself.
 ```
 
@@ -175,7 +248,7 @@ flowchart TD
 
 ---
 
-## SLIDE 6 — Step 3: The Two Inference Engines
+## SLIDE 9 — Step 3: The Two Inference Engines
 
 **TEXT:**
 ```text
@@ -202,7 +275,59 @@ flowchart LR
 
 ---
 
-## SLIDE 7 — Step 4: The One Shared Answer (Hero Slide)
+## SLIDE 10 — Inside the Cloud Engine
+
+**TEXT:**
+```text
+Photo uploaded over HTTPS → FastAPI receives it → Keras model predicts →
+result sent back → nothing is stored on the server.
+```
+
+**VISUAL:**
+```mermaid
+flowchart LR
+    APP["📱 App"] -- "HTTPS upload" --> API["☁️ FastAPI"]
+    API --> MDL["🧠 Keras model"]
+    MDL --> API
+    API -- "JSON result" --> APP
+    API -. "no image saved" .-> X["🚫"]
+
+    style APP fill:#2e7d32,color:#fff
+    style API fill:#1565c0,color:#fff
+    style MDL fill:#ef6c00,color:#fff
+    style X fill:#9e9e9e,color:#fff
+```
+
+**MOTION:** Upload arrow draws first → model box pulses while "thinking" → result arrow returns → grey "no storage" note fades in last.
+
+---
+
+## SLIDE 11 — Inside the On-Device Engine
+
+**TEXT:**
+```text
+model.tflite is bundled inside the app.
+It loads once, then predicts instantly — no internet, no waiting.
+```
+
+**VISUAL:**
+```mermaid
+flowchart LR
+    A["📦 model.tflite\n(bundled)"] --> B["📲 Loaded into memory"]
+    B --> C["🧠 Predicts on photo"]
+    C --> D(["✅ Instant result"])
+
+    style A fill:#9e9e9e,color:#fff
+    style B fill:#ef6c00,color:#fff
+    style C fill:#ef6c00,color:#fff
+    style D fill:#6a1b9a,color:#fff
+```
+
+**MOTION:** Bundled file icon appears → arrow flows into memory box → predicts → result pops with a spark.
+
+---
+
+## SLIDE 12 — Step 4: The One Shared Answer (Hero Slide)
 
 **TEXT:**
 ```text
@@ -212,7 +337,7 @@ No matter which engine ran, the answer is always these 8 fields.
 **VISUAL:**
 ```mermaid
 flowchart TB
-    CONTRACT{{"📋 PREDICTION CONTRACT\n──────────────────────\nmodel_label · disease\nconfidence · uncertain\nguidance_available\nsymptoms · treatment\nprevention"}}
+    CONTRACT{{"📋 PREDICTION CONTRACT\n──────────────────────\nmodel_label · disease\nconfidence · uncertain\nguidance_available\nsymptoms · treatment · prevention"}}
 
     CLD["☁️ Cloud engine"] --> CONTRACT
     EDG["📲 On-device engine"] --> CONTRACT
@@ -226,7 +351,7 @@ flowchart TB
 
 ---
 
-## SLIDE 8 — Step 5: The Confidence Gate
+## SLIDE 13 — Step 5: The Confidence Gate
 
 **TEXT:**
 ```text
@@ -251,7 +376,7 @@ flowchart TD
 
 ---
 
-## SLIDE 9 — Step 6 & 7: Result Screen & Save
+## SLIDE 14 — Step 6 & 7: Result Screen & Save
 
 **TEXT:**
 ```text
@@ -274,7 +399,7 @@ flowchart LR
 
 ---
 
-## SLIDE 10 — Revisit: History, Analytics & Library
+## SLIDE 15 — Revisit: History, Analytics & Library
 
 **TEXT:**
 ```text
@@ -299,7 +424,32 @@ flowchart TB
 
 ---
 
-## SLIDE 11 — Safe Degradation
+## SLIDE 16 — Privacy by Design
+
+**TEXT:**
+```text
+Photos are never stored on the cloud server.
+Saved scans live only in your local database — on your phone.
+```
+
+**VISUAL:**
+```mermaid
+flowchart LR
+    PH(["🖼️ Your photo"]) --> CLD["☁️ Cloud (predict only)"]
+    CLD -. "discarded after use" .-> X["🚫 Not stored"]
+    PH --> DB[("📁 Local DB\non your phone only")]
+
+    style PH fill:#6a1b9a,color:#fff
+    style CLD fill:#1565c0,color:#fff
+    style X fill:#c62828,color:#fff
+    style DB fill:#9e9e9e,color:#fff
+```
+
+**MOTION:** Photo appears → dashed arrow to cloud fades with a "discarded" stamp → solid arrow to local DB stays lit.
+
+---
+
+## SLIDE 17 — Safe Degradation
 
 **TEXT:**
 ```text
@@ -328,7 +478,40 @@ flowchart TD
 
 ---
 
-## SLIDE 12 — Full Journey in One Picture
+## SLIDE 18 — The Tech Stack at a Glance
+
+**TEXT:**
+```text
+Simple, proven tools — nothing exotic.
+```
+
+**VISUAL:**
+```mermaid
+flowchart TB
+    subgraph APPSIDE["📱 App"]
+        K["Kotlin / Android"]
+        T["TensorFlow Lite"]
+    end
+    subgraph SERVERSIDE["☁️ Server"]
+        F["FastAPI (Python)"]
+        Ke["Keras / TensorFlow"]
+    end
+
+    APPSIDE -. "HTTPS" .-> SERVERSIDE
+
+    style APPSIDE fill:#e8f5e9,stroke:#2e7d32
+    style SERVERSIDE fill:#e3f2fd,stroke:#1565c0
+    style K fill:#2e7d32,color:#fff
+    style T fill:#ef6c00,color:#fff
+    style F fill:#1565c0,color:#fff
+    style Ke fill:#ef6c00,color:#fff
+```
+
+**MOTION:** App box and server box fade in side by side → dashed HTTPS arrow connects them last.
+
+---
+
+## SLIDE 19 — Full Journey in One Picture
 
 **TEXT:**
 ```text
@@ -367,6 +550,32 @@ flowchart LR
 ```
 
 **MOTION:** Flow draws itself left to right, one node at a time, finishing with History and Analytics.
+
+---
+
+## SLIDE 20 — Thank You / What's Next
+
+**TEXT:**
+```text
+CROPORA
+One photo. Two engines. One answer.
+
+Thank you!
+Questions?
+```
+
+**VISUAL:**
+```mermaid
+flowchart LR
+    A(["🌿 Today"]) --> B["📱 Cropora"]
+    B --> C(["🚀 More crops\nmore languages\nsmarter models"])
+
+    style A fill:#6a1b9a,color:#fff
+    style B fill:#2e7d32,color:#fff
+    style C fill:#f9a825,color:#000,stroke:#b8860b,stroke-width:3px
+```
+
+**MOTION:** Today fades in → app box pulses once → gold "what's next" box slides in and glows.
 
 ---
 
